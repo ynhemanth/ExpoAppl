@@ -1,0 +1,58 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="ExpoApplDBModelStoreContainer" CdmEntityContainer="ExpoApplDBEntities">
+    <EntitySetMapping Name="Pricings">
+      <EntityTypeMapping TypeName="ExpoApplDBModel.Pricing">
+        <MappingFragment StoreEntitySet="Pricing">
+          <ScalarProperty Name="PricingID" ColumnName="PricingID" />
+          <ScalarProperty Name="SupplierID" ColumnName="SupplierID" />
+          <ScalarProperty Name="ProductID" ColumnName="ProductID" />
+          <ScalarProperty Name="Price" ColumnName="Price" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Products">
+      <EntityTypeMapping TypeName="ExpoApplDBModel.Product">
+        <MappingFragment StoreEntitySet="Products">
+          <ScalarProperty Name="ProductName" ColumnName="ProductName" />
+          <ScalarProperty Name="ProductID" ColumnName="ProductID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Suppliers">
+      <EntityTypeMapping TypeName="ExpoApplDBModel.Supplier">
+        <MappingFragment StoreEntitySet="Suppliers">
+          <ScalarProperty Name="SupplierName" ColumnName="SupplierName" />
+          <ScalarProperty Name="SupplierID" ColumnName="SupplierID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="proc_DetailsTablewithProdID" FunctionName="ExpoApplDBModel.Store.proc_DetailsTablewithProdID">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="ExpoApplDBModel.proc_DetailsTablewithProdID_Result">
+          <ScalarProperty Name="SupplierName" ColumnName="SupplierName" />
+          <ScalarProperty Name="ProductName" ColumnName="ProductName" />
+          <ScalarProperty Name="Price" ColumnName="Price" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="proc_DetailsTablewithSupplierID" FunctionName="ExpoApplDBModel.Store.proc_DetailsTablewithSupplierID">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="ExpoApplDBModel.proc_DetailsTablewithSupplierID_Result">
+          <ScalarProperty Name="SupplierName" ColumnName="SupplierName" />
+          <ScalarProperty Name="ProductName" ColumnName="ProductName" />
+          <ScalarProperty Name="Price" ColumnName="Price" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="proc_DetailsTablewithSupplierAndProdIDs" FunctionName="ExpoApplDBModel.Store.proc_DetailsTablewithSupplierAndProdIDs">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="ExpoApplDBModel.proc_DetailsTablewithSupplierAndProdIDs_Result">
+          <ScalarProperty Name="SupplierName" ColumnName="SupplierName" />
+          <ScalarProperty Name="ProductName" ColumnName="ProductName" />
+          <ScalarProperty Name="Price" ColumnName="Price" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+  </EntityContainerMapping>
+</Mapping>

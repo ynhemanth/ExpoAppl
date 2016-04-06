@@ -1,0 +1,253 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="ExpoApplDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Pricing">
+          <Key>
+            <PropertyRef Name="PricingID" />
+          </Key>
+          <Property Name="PricingID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SupplierID" Type="int" />
+          <Property Name="ProductID" Type="int" />
+          <Property Name="Price" Type="int" />
+        </EntityType>
+        <EntityType Name="Products">
+          <Key>
+            <PropertyRef Name="ProductID" />
+          </Key>
+          <Property Name="ProductID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ProductName" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Suppliers">
+          <Key>
+            <PropertyRef Name="SupplierID" />
+          </Key>
+          <Property Name="SupplierID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SupplierName" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <Association Name="FK_Pricing_Products">
+          <End Role="Products" Type="Self.Products" Multiplicity="0..1" />
+          <End Role="Pricing" Type="Self.Pricing" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Products">
+              <PropertyRef Name="ProductID" />
+            </Principal>
+            <Dependent Role="Pricing">
+              <PropertyRef Name="ProductID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Pricing_Suppliers">
+          <End Role="Suppliers" Type="Self.Suppliers" Multiplicity="0..1" />
+          <End Role="Pricing" Type="Self.Pricing" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Suppliers">
+              <PropertyRef Name="SupplierID" />
+            </Principal>
+            <Dependent Role="Pricing">
+              <PropertyRef Name="SupplierID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Function Name="proc_DetailsTablewithProdID" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="proc_DetailsTablewithSupplierAndProdIDs" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="pid" Type="int" Mode="In" />
+          <Parameter Name="sid" Type="int" Mode="In" />
+        </Function>
+        <Function Name="proc_DetailsTablewithSupplierID" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="id" Type="int" Mode="In" />
+        </Function>
+        <EntityContainer Name="ExpoApplDBModelStoreContainer">
+          <EntitySet Name="Pricing" EntityType="Self.Pricing" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Products" EntityType="Self.Products" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Suppliers" EntityType="Self.Suppliers" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Pricing_Products" Association="Self.FK_Pricing_Products">
+            <End Role="Products" EntitySet="Products" />
+            <End Role="Pricing" EntitySet="Pricing" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Pricing_Suppliers" Association="Self.FK_Pricing_Suppliers">
+            <End Role="Suppliers" EntitySet="Suppliers" />
+            <End Role="Pricing" EntitySet="Pricing" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="ExpoApplDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Pricing">
+          <Key>
+            <PropertyRef Name="PricingID" />
+          </Key>
+          <Property Name="PricingID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SupplierID" Type="Int32" />
+          <Property Name="ProductID" Type="Int32" />
+          <Property Name="Price" Type="Int32" />
+          <NavigationProperty Name="Product" Relationship="ExpoApplDBModel.FK_Pricing_Products" FromRole="Pricing" ToRole="Product" />
+          <NavigationProperty Name="Supplier" Relationship="ExpoApplDBModel.FK_Pricing_Suppliers" FromRole="Pricing" ToRole="Supplier" />
+        </EntityType>
+        <EntityContainer Name="ExpoApplDBEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Pricings" EntityType="Self.Pricing" />
+          <EntitySet Name="Products" EntityType="ExpoApplDBModel.Product" />
+          <EntitySet Name="Suppliers" EntityType="ExpoApplDBModel.Supplier" />
+          <AssociationSet Name="FK_Pricing_Products" Association="ExpoApplDBModel.FK_Pricing_Products">
+            <End Role="Product" EntitySet="Products" />
+            <End Role="Pricing" EntitySet="Pricings" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Pricing_Suppliers" Association="ExpoApplDBModel.FK_Pricing_Suppliers">
+            <End Role="Supplier" EntitySet="Suppliers" />
+            <End Role="Pricing" EntitySet="Pricings" />
+          </AssociationSet>
+          <FunctionImport Name="proc_DetailsTablewithProdID" ReturnType="Collection(ExpoApplDBModel.proc_DetailsTablewithProdID_Result)">
+          <Parameter Name="id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="proc_DetailsTablewithSupplierID" ReturnType="Collection(ExpoApplDBModel.proc_DetailsTablewithSupplierID_Result)">
+          <Parameter Name="id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="proc_DetailsTablewithSupplierAndProdIDs" ReturnType="Collection(ExpoApplDBModel.proc_DetailsTablewithSupplierAndProdIDs_Result)">
+            <Parameter Name="pid" Mode="In" Type="Int32" />
+            <Parameter Name="sid" Mode="In" Type="Int32" />
+          </FunctionImport>
+        </EntityContainer>
+        <EntityType Name="Product">
+          <Key>
+            <PropertyRef Name="ProductID" />
+          </Key>
+          <Property Name="ProductID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ProductName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Pricings" Relationship="ExpoApplDBModel.FK_Pricing_Products" FromRole="Product" ToRole="Pricing" />
+        </EntityType>
+        <EntityType Name="Supplier">
+          <Key>
+            <PropertyRef Name="SupplierID" />
+          </Key>
+          <Property Name="SupplierID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SupplierName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Pricings" Relationship="ExpoApplDBModel.FK_Pricing_Suppliers" FromRole="Supplier" ToRole="Pricing" />
+        </EntityType>
+        <Association Name="FK_Pricing_Products">
+          <End Type="ExpoApplDBModel.Product" Role="Product" Multiplicity="0..1" />
+          <End Type="ExpoApplDBModel.Pricing" Role="Pricing" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="ProductID" />
+            </Principal>
+            <Dependent Role="Pricing">
+              <PropertyRef Name="ProductID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Pricing_Suppliers">
+          <End Type="ExpoApplDBModel.Supplier" Role="Supplier" Multiplicity="0..1" />
+          <End Type="ExpoApplDBModel.Pricing" Role="Pricing" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Supplier">
+              <PropertyRef Name="SupplierID" />
+            </Principal>
+            <Dependent Role="Pricing">
+              <PropertyRef Name="SupplierID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <ComplexType Name="proc_DetailsTablewithProdID_Result">
+          <Property Type="String" Name="SupplierName" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="ProductName" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="Price" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="proc_DetailsTablewithSupplierID_Result">
+          <Property Type="String" Name="SupplierName" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="ProductName" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="Price" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="proc_DetailsTablewithSupplierAndProdIDs_Result">
+          <Property Type="String" Name="SupplierName" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="ProductName" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="Price" Nullable="true" />
+        </ComplexType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="ExpoApplDBModelStoreContainer" CdmEntityContainer="ExpoApplDBEntities">
+          <EntitySetMapping Name="Pricings">
+            <EntityTypeMapping TypeName="ExpoApplDBModel.Pricing">
+              <MappingFragment StoreEntitySet="Pricing">
+                <ScalarProperty Name="PricingID" ColumnName="PricingID" />
+                <ScalarProperty Name="SupplierID" ColumnName="SupplierID" />
+                <ScalarProperty Name="ProductID" ColumnName="ProductID" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Products">
+            <EntityTypeMapping TypeName="ExpoApplDBModel.Product">
+              <MappingFragment StoreEntitySet="Products">
+                <ScalarProperty Name="ProductName" ColumnName="ProductName" />
+                <ScalarProperty Name="ProductID" ColumnName="ProductID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Suppliers">
+            <EntityTypeMapping TypeName="ExpoApplDBModel.Supplier">
+              <MappingFragment StoreEntitySet="Suppliers">
+                <ScalarProperty Name="SupplierName" ColumnName="SupplierName" />
+                <ScalarProperty Name="SupplierID" ColumnName="SupplierID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="proc_DetailsTablewithProdID" FunctionName="ExpoApplDBModel.Store.proc_DetailsTablewithProdID">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ExpoApplDBModel.proc_DetailsTablewithProdID_Result">
+                <ScalarProperty Name="SupplierName" ColumnName="SupplierName" />
+                <ScalarProperty Name="ProductName" ColumnName="ProductName" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="proc_DetailsTablewithSupplierID" FunctionName="ExpoApplDBModel.Store.proc_DetailsTablewithSupplierID">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ExpoApplDBModel.proc_DetailsTablewithSupplierID_Result">
+                <ScalarProperty Name="SupplierName" ColumnName="SupplierName" />
+                <ScalarProperty Name="ProductName" ColumnName="ProductName" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="proc_DetailsTablewithSupplierAndProdIDs" FunctionName="ExpoApplDBModel.Store.proc_DetailsTablewithSupplierAndProdIDs">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ExpoApplDBModel.proc_DetailsTablewithSupplierAndProdIDs_Result">
+                <ScalarProperty Name="SupplierName" ColumnName="SupplierName" />
+                <ScalarProperty Name="ProductName" ColumnName="ProductName" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

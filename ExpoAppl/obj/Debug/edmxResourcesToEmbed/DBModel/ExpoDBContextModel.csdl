@@ -1,0 +1,92 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="ExpoApplDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Pricing">
+    <Key>
+      <PropertyRef Name="PricingID" />
+    </Key>
+    <Property Name="PricingID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="SupplierID" Type="Int32" />
+    <Property Name="ProductID" Type="Int32" />
+    <Property Name="Price" Type="Int32" />
+    <NavigationProperty Name="Product" Relationship="ExpoApplDBModel.FK_Pricing_Products" FromRole="Pricing" ToRole="Product" />
+    <NavigationProperty Name="Supplier" Relationship="ExpoApplDBModel.FK_Pricing_Suppliers" FromRole="Pricing" ToRole="Supplier" />
+  </EntityType>
+  <EntityContainer Name="ExpoApplDBEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Pricings" EntityType="Self.Pricing" />
+    <EntitySet Name="Products" EntityType="ExpoApplDBModel.Product" />
+    <EntitySet Name="Suppliers" EntityType="ExpoApplDBModel.Supplier" />
+    <AssociationSet Name="FK_Pricing_Products" Association="ExpoApplDBModel.FK_Pricing_Products">
+      <End Role="Product" EntitySet="Products" />
+      <End Role="Pricing" EntitySet="Pricings" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Pricing_Suppliers" Association="ExpoApplDBModel.FK_Pricing_Suppliers">
+      <End Role="Supplier" EntitySet="Suppliers" />
+      <End Role="Pricing" EntitySet="Pricings" />
+    </AssociationSet>
+    <FunctionImport Name="proc_DetailsTablewithProdID" ReturnType="Collection(ExpoApplDBModel.proc_DetailsTablewithProdID_Result)">
+      <Parameter Name="id" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="proc_DetailsTablewithSupplierID" ReturnType="Collection(ExpoApplDBModel.proc_DetailsTablewithSupplierID_Result)">
+      <Parameter Name="id" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="proc_DetailsTablewithSupplierAndProdIDs" ReturnType="Collection(ExpoApplDBModel.proc_DetailsTablewithSupplierAndProdIDs_Result)">
+      <Parameter Name="pid" Mode="In" Type="Int32" />
+      <Parameter Name="sid" Mode="In" Type="Int32" />
+    </FunctionImport>
+  </EntityContainer>
+  <EntityType Name="Product">
+    <Key>
+      <PropertyRef Name="ProductID" />
+    </Key>
+    <Property Name="ProductID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ProductName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Pricings" Relationship="ExpoApplDBModel.FK_Pricing_Products" FromRole="Product" ToRole="Pricing" />
+  </EntityType>
+  <EntityType Name="Supplier">
+    <Key>
+      <PropertyRef Name="SupplierID" />
+    </Key>
+    <Property Name="SupplierID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="SupplierName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Pricings" Relationship="ExpoApplDBModel.FK_Pricing_Suppliers" FromRole="Supplier" ToRole="Pricing" />
+  </EntityType>
+  <Association Name="FK_Pricing_Products">
+    <End Type="ExpoApplDBModel.Product" Role="Product" Multiplicity="0..1" />
+    <End Type="ExpoApplDBModel.Pricing" Role="Pricing" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Product">
+        <PropertyRef Name="ProductID" />
+      </Principal>
+      <Dependent Role="Pricing">
+        <PropertyRef Name="ProductID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Pricing_Suppliers">
+    <End Type="ExpoApplDBModel.Supplier" Role="Supplier" Multiplicity="0..1" />
+    <End Type="ExpoApplDBModel.Pricing" Role="Pricing" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Supplier">
+        <PropertyRef Name="SupplierID" />
+      </Principal>
+      <Dependent Role="Pricing">
+        <PropertyRef Name="SupplierID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <ComplexType Name="proc_DetailsTablewithProdID_Result">
+    <Property Type="String" Name="SupplierName" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="ProductName" Nullable="true" MaxLength="50" />
+    <Property Type="Int32" Name="Price" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="proc_DetailsTablewithSupplierID_Result">
+    <Property Type="String" Name="SupplierName" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="ProductName" Nullable="true" MaxLength="50" />
+    <Property Type="Int32" Name="Price" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="proc_DetailsTablewithSupplierAndProdIDs_Result">
+    <Property Type="String" Name="SupplierName" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="ProductName" Nullable="true" MaxLength="50" />
+    <Property Type="Int32" Name="Price" Nullable="true" />
+  </ComplexType>
+</Schema>

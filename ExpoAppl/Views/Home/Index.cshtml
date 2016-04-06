@@ -1,0 +1,84 @@
+﻿
+<div class="jumbotron">
+    <h1 class="page-header">Product pricing</h1>
+    <p class="lead">Please select the drop down to get details table.</p>
+   
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="col-md-6">
+            <label for="Suppliers">Supplier</label>
+            @*<select class="form-control" id="selSupplier">
+                <option value="0">   Please select a Supplier   </option>
+                <option value="1">New Co Ltd</option>
+                <option value="2">Old Co Ltd</option>
+            </select>*@
+            @Html.DropDownList("Suppliers", null, "   Please select a Supplier   ", new { @class = "form-control" })
+        </div>
+        <div class="col-md-6">
+            <label for="Products">Product</label>
+            @*<select class="form-control" id="selProduct">
+                <option value="0">   Please Select a Product   </option>
+                <option value="1"> Small wongle</option>
+                <option value="2"> Large wongle</option>
+                <option value="3"> Super wongle</option>
+            </select>*@
+            @Html.DropDownList("Products", null, "   Please select a Product   ", new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="col-md-12">
+        <div class="col-md-8">
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>                            
+                            <th>Supplier</th>
+                            <th>Product</th>
+                            <th>Price</th>
+                        </tr>
+                    </thead>
+                    <tbody id="populatesDetails">
+                        
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    </div>
+
+<script>
+    $('#Suppliers').change(function () {
+        var pVal = $('#Products').val() === "" ? 0 : $('#Products').val();
+        var sVal = $('#Suppliers').val() === "" ? 0 : $('#Suppliers').val();
+        $.ajax({
+            url: '/api/Details/?pId=' + pVal + "&sId=" + sVal,
+            contentType: 'application/html; charset=utf-8',
+            type: 'GET',
+            dataType: 'html'
+
+        })
+        .success(function (result) {
+            $('#populatesDetails').html(result);
+        })
+        .error(function (xhr, status) {
+            alert(status);
+        })
+    });
+    $('#Products').change(function () {
+        var pVal = $('#Products').val() === "" ? 0 : $('#Products').val();
+        var sVal = $('#Suppliers').val() === "" ? 0 : $('#Suppliers').val();
+        $.ajax({
+            url: '/api/Details/?pId=' + pVal + "&sId=" + sVal,
+            contentType: 'application/html; charset=utf-8',
+            type: 'GET',
+            dataType: 'html'
+
+        })
+       .success(function (result) {
+           $('#populatesDetails').html(result);
+       })
+       .error(function (xhr, status) {
+           alert(status);
+       })
+    });
+</script>

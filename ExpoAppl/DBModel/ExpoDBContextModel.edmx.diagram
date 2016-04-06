@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="0d719acbe7f94b27b8bd697284f48c05" Name="Diagram1">
+        <EntityTypeShape EntityType="ExpoApplDBModel.Pricing" Width="1.5" PointX="4.375" PointY="1.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="ExpoApplDBModel.Product" Width="1.75" PointX="7.75" PointY="1.875" />
+        <EntityTypeShape EntityType="ExpoApplDBModel.Supplier" Width="1.5" PointX="0.5" PointY="1.875" />
+        <AssociationConnector Association="ExpoApplDBModel.FK_Pricing_Products" />
+        <AssociationConnector Association="ExpoApplDBModel.FK_Pricing_Suppliers" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
